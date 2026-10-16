@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ReservaFlex — Sistema Inteligente de Gestão de Espaços</title>
+  <!-- Mesma identidade visual original; fontes e ícones locais para funcionar sem internet. -->
+  <link rel="stylesheet" href="assets/icons.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="theme-univ">
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-logo" id="tenantLogo"><i class="fa-solid fa-graduation-cap" aria-hidden="true"></i></div>
+        <div><div class="brand-title">Reserva<span>Flex</span></div><span class="tenant-badge-tag" id="tenantBadge">Universidade</span></div>
+      </div>
+      <nav aria-label="Menu principal">
+        <ul class="nav-list">
+          <li><button class="nav-item active" data-target="view-inicio" onclick="switchView('view-inicio')"><i class="fa-solid fa-house" aria-hidden="true"></i>Visão Geral & Painel</button></li>
+          <li class="nav-section-label">Luan · Pessoas & Organizações</li>
+          <li><button class="nav-item" data-target="view-usuarios" onclick="abrirCrud('usuarios')"><i class="fa-solid fa-users" aria-hidden="true"></i>Usuários</button></li>
+          <li><button class="nav-item" data-target="view-organizacoes" onclick="abrirCrud('organizacoes')"><i class="fa-solid fa-building" aria-hidden="true"></i>Organizações</button></li>
+          <li class="nav-section-label">Érick · Espaços & Agendamentos</li>
+          <li><button class="nav-item" data-target="view-buscar" onclick="abrirCrud('recursos')"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>Catálogo de Espaços</button></li>
+          <li><button class="nav-item" data-target="view-form-dinamico" onclick="abrirCrud('reservas')"><i class="fa-solid fa-calendar-plus" aria-hidden="true"></i>Agendamentos</button></li>
+          <li class="nav-section-label">Vinicius · Regras & Operações</li>
+          <li><button class="nav-item" data-target="view-regras" onclick="abrirCrud('regras')"><i class="fa-solid fa-sliders" aria-hidden="true"></i>Regras de Reserva</button></li>
+          <li><button class="nav-item" data-target="view-bloqueios" onclick="abrirCrud('bloqueios')"><i class="fa-solid fa-screwdriver-wrench" aria-hidden="true"></i>Bloqueios & Manutenções</button></li>
+          <li class="nav-section-label">Arthur · Cadastros & Personalização</li>
+          <li><button class="nav-item" data-target="view-equipamentos" onclick="abrirCrud('equipamentos')"><i class="fa-solid fa-tv" aria-hidden="true"></i>Equipamentos</button></li>
+          <li><button class="nav-item" data-target="view-configuracoes" onclick="abrirCrud('configuracoes')"><i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i>Personalização da Empresa</button></li>
+          <li class="nav-section-label">Serviços</li>
+          <li><button class="nav-item" data-target="view-patterns" onclick="switchView('view-patterns')"><i class="fa-solid fa-gears" aria-hidden="true"></i>Motor de Regras & Serviços</button></li>
+          <li><button class="nav-item" data-target="view-integracoes" onclick="switchView('view-integracoes')"><i class="fa-solid fa-plug" aria-hidden="true"></i>Central de Integrações</button></li>
+        </ul>
+      </nav>
+      <div class="sidebar-footer"><div class="user-profile-widget"><div class="avatar">RF</div><div class="user-info"><span class="user-name">Equipe ReservaFlex</span><span class="user-role">Luan, Érick, Vinicius e Arthur</span></div></div></div>
+    </aside>
+
+    <div class="main-wrapper">
+      <header class="topbar">
+        <h1 class="page-title" id="topbarTitle">Visão Geral & Painel Corporativo</h1>
+        <div class="topbar-actions">
+          <div class="tenant-selector-wrapper"><i class="fa-solid fa-building-user" aria-hidden="true"></i><label for="tenantSelect" class="sr-only">Organização atual</label><select id="tenantSelect" class="tenant-select-dropdown" onchange="changeTenantSegment(this.value)"><option>Carregando…</option></select></div>
+          <button class="icon-btn" onclick="switchView('view-login')" title="Escolher organização" aria-label="Escolher organização"><i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i></button>
+          <button class="icon-btn" onclick="recarregarTela()" title="Atualizar registros" aria-label="Atualizar registros"><i class="fa-solid fa-arrows-rotate" aria-hidden="true"></i></button>
+        </div>
+      </header>
+
+      <main class="content-container" id="conteudoPrincipal">
+        <div id="globalError" class="error-banner" role="alert" hidden></div>
+        <section id="view-inicio" class="view-section active">
+          <div class="greeting-section"><h2 class="greeting-title" id="greetingTitle">Bem-vindo ao ReservaFlex</h2><p class="greeting-subtitle">Plataforma corporativa de gestão de espaços, agendamentos e configurações por organização.</p></div>
+          <div class="dashboard-grid">
+            <button class="action-card primary-gradient" onclick="abrirCrud('recursos')"><span class="action-icon"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></span><span class="action-info"><span class="action-title">Buscar Espaços</span><span class="action-sub">Explore o catálogo de salas e quadras</span></span></button>
+            <button class="action-card" onclick="novaReserva()"><span class="action-icon"><i class="fa-solid fa-calendar-plus" aria-hidden="true"></i></span><span class="action-info"><span class="action-title">Novo Agendamento</span><span class="action-sub">Reserva rápida com campos adaptativos</span></span></button>
+            <button class="action-card" onclick="switchView('view-patterns')"><span class="action-icon"><i class="fa-solid fa-gears" aria-hidden="true"></i></span><span class="action-info"><span class="action-title">Motor de Regras</span><span class="action-sub">Serviços e automação do projeto</span></span></button>
+            <button class="action-card" onclick="switchView('view-integracoes')"><span class="action-icon"><i class="fa-solid fa-plug" aria-hidden="true"></i></span><span class="action-info"><span class="action-title">Central de Integrações</span><span class="action-sub">Fontes externas previstas no projeto</span></span></button>
+          </div>
+        </section>
+
+        <section id="view-login" class="view-section"><div class="portal-card"><div class="brand-logo"><i class="fa-solid fa-calendar-days" aria-hidden="true"></i></div><h2>Acesse seu Portal ReservaFlex</h2><p>Selecione sua organização para carregar as configurações e o ambiente de trabalho.</p><div id="portalOrganizacoes" class="portal-grid"></div><button class="btn btn-primary wide-button" onclick="switchView('view-inicio')">Entrar na Visão Geral <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button></div></section>
+
+        <!-- As oito telas reutilizam renderCrud em app.js, com campos definidos em entidades.js. -->
+        <section id="view-usuarios" class="view-section" data-entidade="usuarios"></section>
+        <section id="view-organizacoes" class="view-section" data-entidade="organizacoes"></section>
+        <section id="view-buscar" class="view-section" data-entidade="recursos"></section>
+        <section id="view-form-dinamico" class="view-section" data-entidade="reservas"></section>
+        <section id="view-regras" class="view-section" data-entidade="regras"></section>
+        <section id="view-bloqueios" class="view-section" data-entidade="bloqueios"></section>
+        <section id="view-equipamentos" class="view-section" data-entidade="equipamentos"></section>
+        <section id="view-configuracoes" class="view-section" data-entidade="configuracoes"></section>
+
+        <!-- Demonstrações que já faziam parte da primeira entrega; não são telas CRUD. -->
+        <section id="view-patterns" class="view-section">
+          <div class="page-heading"><div><h2>Motor de Regras & Serviços do ReservaFlex</h2><p>Exemplos de organização dos serviços presentes no projeto original.</p></div></div>
+          <div class="service-grid">
+            <article class="service-card"><span class="service-tag">Singleton</span><h3>Gerenciador de Conexões & Contexto</h3><p>Verifique o compartilhamento da instância e execute uma consulta de usuários.</p><button class="btn btn-primary" onclick="testPatternAPI('singleton')">Executar Teste de Conexão</button></article>
+            <article class="service-card"><span class="service-tag">Template Method</span><h3>Processador de Reservas</h3><p>Demonstre as etapas reutilizadas em reservas, relatórios e notificações.</p><button class="btn btn-primary" onclick="testPatternAPI('template-method')">Executar Demonstração</button></article>
+            <article class="service-card"><span class="service-tag">Fábricas</span><h3>Fábrica de Recursos & Pagamentos</h3><p>Explore os exemplos de criação de recursos, validadores e pagamentos simulados.</p><button class="btn btn-primary" onclick="testPatternAPI('factory')">Instanciar Serviços</button></article>
+          </div>
+          <div class="console-panel"><div><i class="fa-solid fa-terminal" aria-hidden="true"></i> Log de Execução dos Serviços</div><pre id="patternOutputConsole">Selecione um serviço para executar o exemplo. Os cadastros reais são realizados nas telas do menu.</pre></div>
+        </section>
+        <section id="view-integracoes" class="view-section"><div class="page-heading"><div><h2>Central de Integrações</h2><p>Fontes externas previstas no projeto original. Os dados desta área são exemplos; não há conexão com serviços externos.</p></div></div><div id="integracoesCards" class="integration-grid"></div></section>
+      </main>
+    </div>
+  </div>
+
+  <!-- Formulário comum para cadastro e edição. A reserva mantém seu formulário na própria tela. -->
+  <dialog id="crudDialog" class="crud-dialog" aria-labelledby="dialogTitle"><div class="dialog-header"><div><p id="dialogEyebrow" class="eyebrow"></p><h2 id="dialogTitle">Novo registro</h2></div><button class="icon-btn" type="button" onclick="fecharFormulario()" aria-label="Fechar formulário"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></div><div id="dialogFormMount"></div></dialog>
+  <dialog id="deleteDialog" class="confirm-dialog" aria-labelledby="deleteTitle"><div class="delete-icon"><i class="fa-solid fa-trash-can" aria-hidden="true"></i></div><h2 id="deleteTitle">Excluir registro?</h2><p id="deleteDescription"></p><p id="deleteError" class="form-error" role="alert" hidden></p><div class="confirm-actions"><button class="btn btn-secondary" onclick="fecharExclusao()">Cancelar</button><button id="confirmDeleteButton" class="btn btn-danger" onclick="confirmarExclusao()">Sim, excluir</button></div></dialog>
+  <div id="toastContainer" class="toast-container" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>

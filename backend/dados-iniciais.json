@@ -1,0 +1,212 @@
+{
+  "usuarios": [
+    {
+      "id_usuario": 1,
+      "organizacao_id": 1,
+      "nome": "Luan (Integrante 1)",
+      "email": "luan@reservaflex.com",
+      "telefone": "(41) 99999-1001",
+      "tipo_usuario": "ADMINISTRADOR",
+      "status": "Ativo",
+      "data_cadastro": "2026-01-15"
+    },
+    {
+      "id_usuario": 2,
+      "organizacao_id": 1,
+      "nome": "Erick (Integrante 2)",
+      "email": "erick@reservaflex.com",
+      "telefone": "(41) 99999-1002",
+      "tipo_usuario": "USUARIO",
+      "status": "Ativo",
+      "data_cadastro": "2026-01-16"
+    },
+    {
+      "id_usuario": 3,
+      "organizacao_id": 2,
+      "nome": "Vinicius (Integrante 3)",
+      "email": "vinicius@reservaflex.com",
+      "telefone": "(41) 99999-1003",
+      "tipo_usuario": "ADMINISTRADOR",
+      "status": "Ativo",
+      "data_cadastro": "2026-01-17"
+    },
+    {
+      "id_usuario": 4,
+      "organizacao_id": 3,
+      "nome": "Arthur (Integrante 4)",
+      "email": "arthur@reservaflex.com",
+      "telefone": "(41) 99999-1004",
+      "tipo_usuario": "USUARIO",
+      "status": "Ativo",
+      "data_cadastro": "2026-01-18"
+    }
+  ],
+  "organizacoes": [
+    {
+      "id_organizacao": 1,
+      "nome": "Universidade Central",
+      "segmento": "Universidade",
+      "documento": "12.345.678/0001-90",
+      "telefone": "(41) 3333-1000",
+      "email": "contato@univcentral.br",
+      "status": "Ativo"
+    },
+    {
+      "id_organizacao": 2,
+      "nome": "Hub Coworking",
+      "segmento": "Coworking",
+      "documento": "98.765.432/0001-11",
+      "telefone": "(41) 3333-2000",
+      "email": "contato@hubcoworking.br",
+      "status": "Ativo"
+    },
+    {
+      "id_organizacao": 3,
+      "nome": "Condomínio VivaBem",
+      "segmento": "Condomínio",
+      "documento": "45.678.910/0001-22",
+      "telefone": "(41) 3333-3000",
+      "email": "admin@vivabem.br",
+      "status": "Ativo"
+    },
+    {
+      "id_organizacao": 4,
+      "nome": "Arena Sports Club",
+      "segmento": "Centro Esportivo",
+      "documento": "67.891.011/0001-33",
+      "telefone": "(41) 3333-4000",
+      "email": "contato@arenasports.br",
+      "status": "Ativo"
+    }
+  ],
+  "recursos": [
+    {
+      "id_recurso": 1,
+      "organizacao_id": 1,
+      "nome": "Sala de Reunião 03",
+      "categoria": "Sala de Reunião",
+      "descricao": "Sala climatizada com projetor HD",
+      "localizacao": "Bloco B",
+      "capacidade": 15,
+      "preco_hora": 40,
+      "status": "Disponível"
+    },
+    {
+      "id_recurso": 2,
+      "organizacao_id": 1,
+      "nome": "Sala de Reunião Executive 04",
+      "categoria": "Sala de Reunião",
+      "descricao": "Sala executiva com videoconferência",
+      "localizacao": "Bloco A, Andar 3",
+      "capacidade": 12,
+      "preco_hora": 40,
+      "status": "Disponível"
+    },
+    {
+      "id_recurso": 3,
+      "organizacao_id": 1,
+      "nome": "Auditório Central",
+      "categoria": "Auditório",
+      "descricao": "Auditório com palco e microfones",
+      "localizacao": "Bloco A",
+      "capacidade": 200,
+      "preco_hora": 150,
+      "status": "Disponível"
+    },
+    {
+      "id_recurso": 4,
+      "organizacao_id": 1,
+      "nome": "Laboratório de Química 02",
+      "categoria": "Laboratório",
+      "descricao": "Laboratório com 30 bancadas",
+      "localizacao": "Bloco C",
+      "capacidade": 30,
+      "preco_hora": 60,
+      "status": "Disponível"
+    },
+    {
+      "id_recurso": 5,
+      "organizacao_id": 4,
+      "nome": "Quadra Society 01",
+      "categoria": "Quadra",
+      "descricao": "Grama sintética com refletores LED",
+      "localizacao": "Área Externa",
+      "capacidade": 14,
+      "preco_hora": 140,
+      "status": "Disponível"
+    }
+  ],
+  "equipamentos": [
+    {
+      "id_equipamento": 1,
+      "nome": "Projetor 4K",
+      "categoria": "Multimídia",
+      "descricao": "Projetor de alta definição 4K",
+      "status": "Ativo"
+    },
+    {
+      "id_equipamento": 2,
+      "nome": "TV 65\"",
+      "categoria": "Multimídia",
+      "descricao": "Smart TV LED 65 polegadas",
+      "status": "Ativo"
+    },
+    {
+      "id_equipamento": 3,
+      "nome": "Ar-condicionado Split",
+      "categoria": "Climatização",
+      "descricao": "Aparelho Split 24000 BTUs",
+      "status": "Ativo"
+    }
+  ],
+  "reservas": [
+    {
+      "id_reserva": 1,
+      "codigo_reserva": "RF10483",
+      "usuario_id": 1,
+      "recurso_id": 2,
+      "recurso_nome": "Sala de Reunião Executive 04",
+      "data_reserva": "2026-10-15",
+      "horario_inicio": "14:00",
+      "horario_fim": "16:00",
+      "finalidade": "Reunião de alinhamento",
+      "valor_total": 80,
+      "status": "Confirmada"
+    }
+  ],
+  "regras": [
+    {
+      "id_regra": 1,
+      "recurso_id": 2,
+      "recurso_nome": "Sala de Reunião Executive 04",
+      "duracao_max_horas": 3,
+      "antecedencia_min_horas": 2,
+      "limite_reservas_semana": 5,
+      "necessita_aprovacao": 1
+    }
+  ],
+  "bloqueios": [
+    {
+      "id_bloqueio": 1,
+      "recurso_id": 4,
+      "recurso_nome": "Laboratório de Química 02",
+      "administrador_id": 1,
+      "administrador_nome": "Luan",
+      "tipo": "Manutenção",
+      "motivo": "Manutenção preventiva dos equipamentos",
+      "data_inicio": "2026-10-20 08:00",
+      "status": "Agendado"
+    }
+  ],
+  "configuracoes": [
+    {
+      "id_configuracao": 1,
+      "organizacao_id": 1,
+      "organizacao_nome": "Universidade Central",
+      "modulo_academico": 1,
+      "modulo_coworking": 0,
+      "modulo_condominio": 0,
+      "modulo_esportivo": 0
+    }
+  ]
+}
