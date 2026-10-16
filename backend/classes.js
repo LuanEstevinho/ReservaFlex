@@ -1,10 +1,4 @@
-/* ==========================================================================
-   ReservaFlex - Mapeamento das 10 Principais Classes do Sistema
-   Modelos originais preservados para estudo. Recurso.calcularCusto e
-   RegraReserva.validarDuracao são reutilizados pelo CRUD real.
-   Métodos de login, check-in, vínculo de equipamento, pagamento e notificação
-   abaixo são exemplos de domínio: não representam serviços implementados.
-   ========================================================================== */
+/* ReservaFlex - Mapeamento das 10 Principais Classes do Sistema */
 
 // 1. Classe Usuario
 class Usuario {
@@ -19,16 +13,13 @@ class Usuario {
     this.status = status;
     this.data_cadastro = new Date().toISOString().split('T')[0];
   }
-
   autenticar(senhaDigitada) {
     return this.senha === senhaDigitada && this.status === 'Ativo';
   }
-
   atualizarPerfil(novoNome, novoTelefone) {
     this.nome = novoNome;
     this.telefone = novoTelefone;
   }
-
   isAdministrador() {
     return this.tipo_usuario === 'ADMINISTRADOR';
   }
@@ -45,11 +36,9 @@ class Organizacao {
     this.email = email;
     this.status = 'Ativo';
   }
-
   ativarSegmento(novoSegmento) {
     this.segmento = novoSegmento;
   }
-
   obterResumo() {
     return `${this.nome} (${this.segmento}) - Doc: ${this.documento}`;
   }
@@ -68,11 +57,9 @@ class Recurso {
     this.preco_hora = preco_hora;
     this.status = 'Disponível'; // 'Disponível', 'Em Manutenção', 'Ocupado'
   }
-
   calcularCusto(horas) {
     return this.preco_hora * horas;
   }
-
   alterarStatus(novoStatus) {
     this.status = novoStatus;
   }
@@ -87,7 +74,6 @@ class Equipamento {
     this.descricao = descricao;
     this.status = status;
   }
-
   vincularARecurso(recursoId) {
     console.log(`Equipamento ${this.nome} vinculado ao Recurso ID ${recursoId}`);
   }
@@ -95,7 +81,17 @@ class Equipamento {
 
 // 5. Classe Reserva
 class Reserva {
-  constructor(id_reserva, codigo_reserva, usuario_id, recurso_id, data_reserva, horario_inicio, horario_fim, finalidade, valor_total) {
+  constructor(
+    id_reserva,
+    codigo_reserva,
+    usuario_id,
+    recurso_id,
+    data_reserva,
+    horario_inicio,
+    horario_fim,
+    finalidade,
+    valor_total
+  ) {
     this.id_reserva = id_reserva;
     this.codigo_reserva = codigo_reserva;
     this.usuario_id = usuario_id;
@@ -109,15 +105,12 @@ class Reserva {
     this.checkin_realizado = false;
     this.pagamento_realizado = false;
   }
-
   confirmarReserva() {
     this.status = 'Confirmada';
   }
-
   registrarCheckin() {
     this.checkin_realizado = true;
   }
-
   cancelar() {
     this.status = 'Cancelada';
   }
@@ -125,7 +118,14 @@ class Reserva {
 
 // 6. Classe RegraReserva
 class RegraReserva {
-  constructor(id_regra, recurso_id, duracao_max_horas = 3, antecedencia_min_horas = 2, limite_reservas_semana = 5, necessita_aprovacao = true) {
+  constructor(
+    id_regra,
+    recurso_id,
+    duracao_max_horas = 3,
+    antecedencia_min_horas = 2,
+    limite_reservas_semana = 5,
+    necessita_aprovacao = true
+  ) {
     this.id_regra = id_regra;
     this.recurso_id = recurso_id;
     this.duracao_max_horas = duracao_max_horas;
@@ -133,7 +133,6 @@ class RegraReserva {
     this.limite_reservas_semana = limite_reservas_semana;
     this.necessita_aprovacao = necessita_aprovacao;
   }
-
   validarDuracao(duracaoDesejada) {
     return duracaoDesejada <= this.duracao_max_horas;
   }
@@ -151,7 +150,6 @@ class BloqueioRecurso {
     this.data_fim = data_fim;
     this.status = 'Agendado';
   }
-
   iniciarManutencao() {
     this.status = 'Em Andamento';
   }
@@ -159,7 +157,14 @@ class BloqueioRecurso {
 
 // 8. Classe ConfiguracaoVariabilidade
 class ConfiguracaoVariabilidade {
-  constructor(id_configuracao, organizacao_id, modulo_academico, modulo_coworking, modulo_condominio, modulo_esportivo) {
+  constructor(
+    id_configuracao,
+    organizacao_id,
+    modulo_academico,
+    modulo_coworking,
+    modulo_condominio,
+    modulo_esportivo
+  ) {
     this.id_configuracao = id_configuracao;
     this.organizacao_id = organizacao_id;
     this.modulo_academico = modulo_academico;
@@ -167,7 +172,6 @@ class ConfiguracaoVariabilidade {
     this.modulo_condominio = modulo_condominio;
     this.modulo_esportivo = modulo_esportivo;
   }
-
   isModuloAtivo(moduloNome) {
     return !!this[moduloNome];
   }
@@ -184,7 +188,6 @@ class TransacaoPagamento {
     this.status = 'PENDENTE';
     this.data_pagamento = new Date().toISOString();
   }
-
   aprovar() {
     this.status = 'APROVADO';
   }
@@ -200,12 +203,10 @@ class Notificacao {
     this.lida = false;
     this.data_envio = new Date().toISOString();
   }
-
   marcarComoLida() {
     this.lida = true;
   }
 }
-
 module.exports = {
   Usuario,
   Organizacao,
