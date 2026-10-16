@@ -14,6 +14,12 @@ const json = (res, status, dados) => {
   res.writeHead(status, { 'Content-Type':'application/json; charset=utf-8', 'Cache-Control':'no-store', 'X-Content-Type-Options':'nosniff' });
   res.end(JSON.stringify(dados));
 };
+
+// Reuso: centraliza o formato das respostas que retornam dados.
+function responderDados(res, dados, status = 200) {
+  return json(res, status, { sucesso: true, dados });
+}
+
 async function lerJson(req) {
   let texto = '';
   for await (const parte of req) {
@@ -35,16 +41,16 @@ const server = http.createServer(async (req,res) => {
       if (rota === '/api/status' && req.method === 'GET') return json(res,200,{sucesso:true,banco:'SQLite',arquivo:'data/reservaflex.sqlite',cruds:8,persistente:true});
       if (rota === '/api/equipe' && req.method === 'GET') return json(res,200,{sucesso:true,equipe,total_cruds:8});
       if (rota === '/api/aies' && req.method === 'GET') return json(res,200,{sucesso:true,simulado:true,dados:aies});
-      if (rota === '/api/crud/all' && req.method === 'GET') return json(res,200,{sucesso:true,dados:crud.todos(orgId)});
+      if (rota === '/api/crud/all' && req.method === 'GET') return responderDados(res, crud.todos(orgId))
       const match = rota.match(/^\/api\/crud\/([a-z]+)(?:\/(\d+))?$/);
       if (match) {
         const [,chave,id] = match;
         if (!Object.hasOwn(entidades,chave)) throw new crud.ErroHttp(404,'Cadastro não encontrado.');
-        if (req.method === 'GET') return json(res,200,{sucesso:true,dados:id ? crud.buscar(chave,id,orgId) : crud.listar(chave,orgId)});
+        if (req.method === 'GET') return responderDados(res, id ? crud.buscar(chave,id,orgId) : crud.listar(chave,orgId));
         // CREATE: o botão Salvar envia POST; a validação é seguida pelo INSERT.
-        if (req.method === 'POST' && !id) return json(res,201,{sucesso:true,dados:crud.salvar(chave,await lerJson(req),null,orgId)});
+        if (req.method === 'POST' && !id) return responderDados(res, crud.salvar(chave,await lerJson(req),null,orgId), 201);
         // UPDATE: edição usa PUT e mantém o mesmo identificador.
-        if (req.method === 'PUT' && id) return json(res,200,{sucesso:true,dados:crud.salvar(chave,await lerJson(req),id,orgId)});
+        if (req.method === 'PUT' && id) return responderDados(res, crud.salvar(chave,await lerJson(req),id,orgId));
         // DELETE: exclusão respeita os relacionamentos no banco.
         if (req.method === 'DELETE' && id) { crud.excluir(chave,id,orgId); return json(res,200,{sucesso:true,mensagem:'Registro excluído.'}); }
         throw new crud.ErroHttp(405,'Método não permitido para esse endereço.');
