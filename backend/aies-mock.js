@@ -25,8 +25,8 @@ const aie03_membros_coworking = [{
 }];
 const aie04_associados_esportivo = [{
   id_associado: 1,
-  nome: 'Arthur Lima',
-  email: 'arthur@sports.com',
+  nome: 'Rafael Lima',
+  email: 'rafael@sports.com',
   telefone: '(41) 99999-1004',
   equipe: 'Os Galácticos FC',
   situacao: 'REGULAR'

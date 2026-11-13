@@ -163,7 +163,7 @@ module.exports = {
     tabela: 'equipamento',
     pk: 'id_equipamento',
     titulo: 'Equipamentos',
-    integrante: 'Arthur',
+    integrante: 'Luan',
     ali: 'ALI04',
     campos: [
       org(),
@@ -179,7 +179,7 @@ module.exports = {
     tabela: 'configuracao_variabilidade',
     pk: 'id_configuracao',
     titulo: 'Configurações de variabilidade',
-    integrante: 'Arthur',
+    integrante: 'Luan',
     ali: 'ALI08',
     campos: [
       org(),
