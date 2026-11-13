@@ -163,7 +163,7 @@ module.exports = {
     tabela: 'equipamento',
     pk: 'id_equipamento',
     titulo: 'Equipamentos',
-    integrante: 'Érick',
+    integrante: 'Luan',
     ali: 'ALI04',
     campos: [
       org(),
