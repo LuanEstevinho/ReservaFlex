@@ -1,0 +1,115 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:../data/reservaflex.sqlite"
+}
+
+model bloqueio_recurso {
+  id_bloqueio      Int     @id @default(autoincrement())
+  recurso_id       Int
+  administrador_id Int
+  tipo             String
+  motivo           String
+  data_inicio      String
+  data_fim         String
+  status           String  @default("Agendado")
+  usuario          usuario @relation(fields: [administrador_id], references: [id_usuario], onUpdate: NoAction)
+  recurso          recurso @relation(fields: [recurso_id], references: [id_recurso], onUpdate: NoAction)
+}
+
+model configuracao_variabilidade {
+  id_configuracao      Int         @id @default(autoincrement())
+  organizacao_id       Int         @unique(map: "sqlite_autoindex_configuracao_variabilidade_1")
+  modulo_academico     Int         @default(0)
+  modulo_coworking     Int         @default(0)
+  modulo_condominio    Int         @default(0)
+  modulo_esportivo     Int         @default(0)
+  aprovacao_habilitada Int         @default(0)
+  creditos_habilitados Int         @default(0)
+  racha_pix_habilitado Int         @default(0)
+  organizacao          organizacao @relation(fields: [organizacao_id], references: [id_organizacao], onUpdate: NoAction)
+}
+
+model equipamento {
+  id_equipamento Int         @id @default(autoincrement())
+  organizacao_id Int
+  nome           String
+  categoria      String
+  descricao      String      @default("")
+  status         String      @default("Ativo")
+  organizacao    organizacao @relation(fields: [organizacao_id], references: [id_organizacao], onUpdate: NoAction)
+}
+
+model organizacao {
+  id_organizacao             Int                         @id @default(autoincrement())
+  nome                       String
+  segmento                   String
+  documento                  String                      @default("")
+  telefone                   String                      @default("")
+  email                      String                      @default("")
+  status                     String                      @default("Ativo")
+  configuracao_variabilidade configuracao_variabilidade?
+  equipamento                equipamento[]
+  recurso                    recurso[]
+  usuario                    usuario[]
+}
+
+model recurso {
+  id_recurso       Int                @id @default(autoincrement())
+  organizacao_id   Int
+  nome             String
+  categoria        String
+  descricao        String             @default("")
+  localizacao      String
+  capacidade       Int
+  preco_hora       Float
+  status           String             @default("Disponível")
+  bloqueio_recurso bloqueio_recurso[]
+  organizacao      organizacao        @relation(fields: [organizacao_id], references: [id_organizacao], onUpdate: NoAction)
+  regra_reserva    regra_reserva?
+  reserva          reserva[]
+}
+
+model regra_reserva {
+  id_regra                 Int     @id @default(autoincrement())
+  recurso_id               Int     @unique(map: "sqlite_autoindex_regra_reserva_1")
+  duracao_max_horas        Float
+  antecedencia_min_horas   Int
+  limite_reservas_semana   Int
+  necessita_aprovacao      Int     @default(0)
+  prazo_cancelamento_horas Int     @default(0)
+  recurso                  recurso @relation(fields: [recurso_id], references: [id_recurso], onUpdate: NoAction)
+}
+
+model reserva {
+  id_reserva        Int     @id @default(autoincrement())
+  codigo_reserva    String  @unique(map: "sqlite_autoindex_reserva_1")
+  usuario_id        Int
+  recurso_id        Int
+  documento_vinculo String
+  data_reserva      String
+  horario_inicio    String
+  horario_fim       String
+  finalidade        String
+  num_participantes Int
+  valor_total       Float
+  status            String  @default("Confirmada")
+  recurso           recurso @relation(fields: [recurso_id], references: [id_recurso], onUpdate: NoAction)
+  usuario           usuario @relation(fields: [usuario_id], references: [id_usuario], onUpdate: NoAction)
+}
+
+model usuario {
+  id_usuario       Int                @id @default(autoincrement())
+  organizacao_id   Int
+  nome             String
+  email            String             @unique(map: "sqlite_autoindex_usuario_1")
+  telefone         String             @default("")
+  tipo_usuario     String             @default("USUARIO")
+  status           String             @default("Ativo")
+  bloqueio_recurso bloqueio_recurso[]
+  reserva          reserva[]
+  organizacao      organizacao        @relation(fields: [organizacao_id], references: [id_organizacao], onUpdate: NoAction)
+}
